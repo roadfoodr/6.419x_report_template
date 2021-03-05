@@ -20,7 +20,7 @@
 |  
 **3c. (2 points):**
 
->Even if the act of “getting vaccine" does lead to reduced infection, it does not necessarily mean that it is the vaccine itself that leads to this result. Give an example of how this could be the case. Describe an aspect of experimental design that would eliminate biases not due to the vaccine itself. *(Maximum 200 words.)*
+>Even if the act of "getting vaccine" does lead to reduced infection, it does not necessarily mean that it is the vaccine itself that leads to this result. Give an example of how this could be the case. Describe an aspect of experimental design that would eliminate biases not due to the vaccine itself. *(Maximum 200 words.)*
 |  
 **4. (2 points):**
 
@@ -96,7 +96,11 @@
 
 >Show that the extent of repeated independent testing by different teams can reduce the probability of the research being true.
 
->Start by writing the PPV as ... *(Maximum 100 words.)*
+>Start by writing the PPV as  
+
+> $\displaystyle  \text {PPV} \displaystyle = \frac{\mathbf{P}(\textrm{relation exists, at least one of the n repetitions finds significant})}{\mathbf{P}(\textrm{at least one of the n repetitions finds significant})}$  
+
+> *(Maximum 100 words.)*
 |  
 **(9). (2 points):**
 
