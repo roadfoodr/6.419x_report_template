@@ -9,10 +9,11 @@ import nbformat as nbf
 
 #%% Initialize variables
 DATA_DIR = 'questions'
-WEEK = 1
+WEEK = 2
 CLASS_NAME = '**MITx 6.419x  Data Analysis: Statistical Modeling and Computation in Applications**  '
 STUDENT_NAME = 'Student Name'
 STUDENT_USERNAME = 's_name'
+COLLABORATORS = 'none'
 REPORT_DATE = '3/8/21'
 
 #%% Read questions
@@ -35,6 +36,7 @@ header_lines = []
 header_lines.append(CLASS_NAME)
 header_lines.append(f'Written report -- Homework {WEEK}  ')
 header_lines.append(f'{STUDENT_NAME} ({STUDENT_USERNAME})  ')
+header_lines.append(f'Collaborators: {COLLABORATORS}  ')
 header_lines.append(f'{REPORT_DATE}  ')
 header_lines.append('---')
 
