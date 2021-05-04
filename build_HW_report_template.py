@@ -3,13 +3,13 @@
 Created on Fri Mar  5 00:33:47 2021
 @author: M Powers
 """
-import os
+import os, re
 import nbformat as nbf
 
 
 #%% Initialize variables
 DATA_DIR = 'questions'
-WEEK = 2
+WEEK = 3
 CLASS_NAME = '**MITx 6.419x  Data Analysis: Statistical Modeling and Computation in Applications**  '
 STUDENT_NAME = 'Student Name'
 STUDENT_USERNAME = 's_name'
@@ -24,8 +24,8 @@ os.chdir(dname)
 with open(f'{DATA_DIR}/HW_{WEEK}.md', 'r') as question_file:
 	question_blocks = question_file.read()
 
-question_blocks.replace('| ', '|')
-questions = question_blocks.split(sep='|')
+question_blocks.replace('||| ', '|||')
+questions = re.split(r'\|\|\|', question_blocks)
 
 #%% create the notebook
 nb = nbf.v4.new_notebook()
@@ -36,7 +36,8 @@ header_lines = []
 header_lines.append(CLASS_NAME)
 header_lines.append(f'Written report -- Homework {WEEK}  ')
 header_lines.append(f'{STUDENT_NAME} ({STUDENT_USERNAME})  ')
-header_lines.append(f'Collaborators: {COLLABORATORS}  ')
+if COLLABORATORS != 'none':
+    header_lines.append(f'Collaborators: {COLLABORATORS}  ')
 header_lines.append(f'{REPORT_DATE}  ')
 header_lines.append('---')
 
