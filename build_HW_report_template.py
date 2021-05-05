@@ -9,12 +9,12 @@ import nbformat as nbf
 
 #%% Initialize variables
 DATA_DIR = 'questions'
-WEEK = 3
+WEEK = 4
 CLASS_NAME = '**MITx 6.419x  Data Analysis: Statistical Modeling and Computation in Applications**  '
 STUDENT_NAME = 'Student Name'
 STUDENT_USERNAME = 's_name'
 COLLABORATORS = 'none'
-REPORT_DATE = '3/8/21'
+REPORT_DATE = '4/10/21'
 
 #%% Read questions
 abspath = os.path.abspath(__file__)

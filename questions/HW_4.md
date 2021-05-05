@@ -25,7 +25,7 @@ Your response should include:
 
 1. (1 point) Description of how you compute the monthly inflation rate from CPI and a plot of the monthly inflation rate.  
 (2 points) Description of how the data has been detrended and a plot of the detrended data. (You may choose to work with log of the CPI for later convenience.)  
-(3 points) Statement of and justification for the chosen AR(𝑝) model. Include plots and reasoning.
+(3 points) Statement of and justification for the chosen AR(??) model. Include plots and reasoning.
 (3 points) Description of the final model; computation and plots of the 1 month-ahead forecasts for the validation data. In your plot, overlay predictions on top of the data.|||
 2. (3 points) Which AR$(p)$ model gives the best predictions? Include a plot of the RSME against different lags $p$ for the model.|||
 3. (3 points) Overlay your estimates of monthly inflation rates and plot them on the same graph to compare. (There should be 4 lines, one for each dataset, plus the predictions) over time (months from September 2013 onward).|||
@@ -34,8 +34,7 @@ Your response should include:
 ### External Regressors
 1. (4 points) Include as external regressors monthly average PriceStats inflation rate data and monthly BER data. Use cross-correlation plots to find the lag between the following:
 - CPI inflation rate and PriceStats inflation rate
-- CPI and BER inflation rate.  
-Import statsmodels.tsa.stattools|||
+- CPI and BER inflation rate.|||
 2. (3 points) Fit a new AR model to the CPI inflation rate with these external regressors and the most appropriate lag. Report the coefficients.
 > Python Tip: You may use use sm.tsa.statespace.SARIMAX.|||
 3. (3 points) Report the mean squared prediction error for 1 month ahead forecasts.|||
