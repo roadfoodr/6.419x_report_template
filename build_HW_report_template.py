@@ -8,13 +8,14 @@ import nbformat as nbf
 
 
 #%% Initialize variables
+TEMPLATE_STYLE = 'jbook'  # options: 'jbook' or 'classic'
 DATA_DIR = 'questions'
 WEEK = 4
-CLASS_NAME = '**MITx 6.419x  Data Analysis: Statistical Modeling and Computation in Applications**  '
+CLASS_NAME = 'MITx 6.419x  Data Analysis: Statistical Modeling and Computation in Applications'
 STUDENT_NAME = 'Student Name'
 STUDENT_USERNAME = 's_name'
 COLLABORATORS = 'none'
-REPORT_DATE = '4/10/21'
+REPORT_DATE = '5/14/21'
 
 #%% Read questions
 abspath = os.path.abspath(__file__)
@@ -33,23 +34,71 @@ nb['cells'] = []
 
 #%% Format the header cell
 header_lines = []
-header_lines.append(CLASS_NAME)
-header_lines.append(f'Written report -- Homework {WEEK}  ')
-header_lines.append(f'{STUDENT_NAME} ({STUDENT_USERNAME})  ')
-if COLLABORATORS != 'none':
-    header_lines.append(f'Collaborators: {COLLABORATORS}  ')
-header_lines.append(f'{REPORT_DATE}  ')
-header_lines.append('---')
+if TEMPLATE_STYLE == 'jbook':
+    header_lines.append('````{panels}')
+    header_lines.append(':column: col-10')
+    header_lines.append(f'***{CLASS_NAME.replace("MITx ", "")}***  ')
+    header_lines.append('^^^')
+    header_lines.append('```{image} mitx_zoom_background.jpg')
+    header_lines.append(':alt: MITx\n:width: 300px\n:align: left\n```\n')
+
+    header_lines.append('**Written report -- Homework {{week}}**  ')
+    header_lines.append('{{author}} ({{author_sname}})  ')
+    if COLLABORATORS != 'none':
+        header_lines.append(f'Collaborators: {COLLABORATORS}  ')
+    header_lines.append('{{report_date}}  ')
+    header_lines.append('+++\n````')
+else:
+    header_lines.append(f'**{CLASS_NAME}**  ')
+    header_lines.append(f'Written report -- Homework {WEEK}  ')
+    header_lines.append(f'{STUDENT_NAME} ({STUDENT_USERNAME})  ')
+    if COLLABORATORS != 'none':
+        header_lines.append(f'Collaborators: {COLLABORATORS}  ')
+    header_lines.append(f'{REPORT_DATE}  ')
+    header_lines.append('---')
 
 header_text = '\n'.join(header_lines)
 nb['cells'].append(nbf.v4.new_markdown_cell(header_text))
 
 #%% add the homework questions, interleaved with blank markdown cells
 for q in questions:
-    nb['cells'].append(nbf.v4.new_markdown_cell(q))
+    pointsum, words, problem = 0, 0, 0
+    if TEMPLATE_STYLE == 'jbook':
+        q = q.lstrip()
+        q = re.sub('^##', '#', q, count=1)  #move all headers up one level
+        # https://stackoverflow.com/questions/17779744/regular-expression-to-get-a-string-between-parentheses-in-javascript
+        points = re.findall(r'\((\d+) point[s]*[\.]*\)', q)
+        pointsum = sum([int(i) for i in points if type(i)==int or i.isdigit()])
+        # matches = re.findall(r'\([^)]+ point[s]*\)\s?', q)
+        q = re.sub(r'\(\d+ point[s]*[\.]*\)\s?', '', q)
+        
+        words = re.search(r'\([Mm]aximum (\d+) words[\.]*\)', q)
+        words = words if words else (
+            re.search(r'\((\d+) word limit[\.]*\)', q))
+        words = words.group(1) if words else 0
+        q = re.sub(r'\([Mm]aximum (\d+) words[\.]*\)', '', q)
+        q = re.sub(r'\((\d+) word limit[\.]*\)', '', q)
+        
+        problem = re.findall(r'Problem (\d+):', q)
+        # print(problem)
+
+    else:
+        pass
+    new_cell = nbf.v4.new_markdown_cell(q)
+    new_cell['metadata']['tags'] = []
+    # if pointsum:
+    #     new_cell['metadata']['tags'] = [f'points:{pointsum}']
+    # if words:
+    #     new_cell['metadata']['tags'] = [f'words:{words}']
+    if pointsum:
+        new_cell['metadata']['tags'].append(f'points:{pointsum}')
+    if words:
+        new_cell['metadata']['tags'].append(f'words:{words}')
+    nb['cells'].append(new_cell)
     nb['cells'].append(nbf.v4.new_markdown_cell(' '))
 
 #%% write out the notebook
-fn = f'HW{WEEK}_report_template.ipynb'
+jbook_suffix = '_jbook' if TEMPLATE_STYLE == 'jbook' else ''
+fn = f'HW{WEEK}_report_template{jbook_suffix}.ipynb'
 print (f'Writing {fn}')
 nbf.write(nb, fn)
