@@ -61,35 +61,46 @@ header_text = '\n'.join(header_lines)
 nb['cells'].append(nbf.v4.new_markdown_cell(header_text))
 
 #%% add the homework questions, interleaved with blank markdown cells
+current_problem = 0
 for q in questions:
-    pointsum, words, problem = 0, 0, 0
+    pointsum, words, subproblem, question_name = 0, 0, '', ''
+    q = q.lstrip()
+
+    # https://stackoverflow.com/questions/17779744/regular-expression-to-get-a-string-between-parentheses-in-javascript
+    points = re.findall(r'\((\d+) point[s]*[\.]*\)', q)
+    pointsum = sum([int(i) for i in points if type(i)==int or i.isdigit()])
+
+    words = re.search(r'\([Mm]aximum (\d+) words[\.]*\)', q)
+    words = words if words else (
+        re.search(r'\((\d+) word limit[\.]*\)', q))
+    words = words.group(1) if words else 0
+
+    problem = re.search(r'Problem (\d+):', q)
+    problem = problem.group(1) if problem else ''
+    current_problem = problem if problem else current_problem
+    
+    subproblem = re.match(r'^\>? ?\*\*([a-zA-Z0-9]\.?[a-zA-Z0-9]?)\.?\*\*', q)
+    subproblem = subproblem.group(1).rstrip('.') if subproblem else ''
+    if current_problem and subproblem:
+        question_name = f'{current_problem}.{subproblem}'
+
     if TEMPLATE_STYLE == 'jbook':
-        q = q.lstrip()
         q = re.sub('^##', '#', q, count=1)  #move all headers up one level
-        # https://stackoverflow.com/questions/17779744/regular-expression-to-get-a-string-between-parentheses-in-javascript
-        points = re.findall(r'\((\d+) point[s]*[\.]*\)', q)
-        pointsum = sum([int(i) for i in points if type(i)==int or i.isdigit()])
-        # matches = re.findall(r'\([^)]+ point[s]*\)\s?', q)
-        q = re.sub(r'\(\d+ point[s]*[\.]*\)\s?', '', q)
+        q = re.sub(r'\(\d+ point[s]*[\.]*\)\s?', '', q) #remove points from q body
         
-        words = re.search(r'\([Mm]aximum (\d+) words[\.]*\)', q)
-        words = words if words else (
-            re.search(r'\((\d+) word limit[\.]*\)', q))
-        words = words.group(1) if words else 0
-        q = re.sub(r'\([Mm]aximum (\d+) words[\.]*\)', '', q)
+        q = re.sub(r'\([Mm]aximum (\d+) words[\.]*\)', '', q) #remove words from q body
         q = re.sub(r'\((\d+) word limit[\.]*\)', '', q)
-        
-        problem = re.findall(r'Problem (\d+):', q)
-        # print(problem)
+
+        q = re.sub(r'^\>? ?\*\*[a-zA-Z0-9]\.?[a-zA-Z0-9]?\.?\*\*',
+                   '', q) #remove problem names from q body
 
     else:
         pass
+    
     new_cell = nbf.v4.new_markdown_cell(q)
     new_cell['metadata']['tags'] = []
-    # if pointsum:
-    #     new_cell['metadata']['tags'] = [f'points:{pointsum}']
-    # if words:
-    #     new_cell['metadata']['tags'] = [f'words:{words}']
+    if question_name:
+        new_cell['metadata']['tags'].append(f'question:{question_name}')
     if pointsum:
         new_cell['metadata']['tags'].append(f'points:{pointsum}')
     if words:
@@ -102,3 +113,5 @@ jbook_suffix = '_jbook' if TEMPLATE_STYLE == 'jbook' else ''
 fn = f'HW{WEEK}_report_template{jbook_suffix}.ipynb'
 print (f'Writing {fn}')
 nbf.write(nb, fn)
+if TEMPLATE_STYLE == 'jbook':
+    print(f'To build: jupyter-book build ./{fn}')

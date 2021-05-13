@@ -1,4 +1,4 @@
-### 5. Problem 2: Larger unlabeled subset
+### Problem 2: Larger unlabeled subset
 
 #### Part 1: Visualization
 
@@ -18,7 +18,7 @@
 |||  
 >**3.** Select the features with the top 100 corresponding coefficient values (since this is a multi-class model, you can rank the coefficients using the maximum absolute value over classes, or the sum of absolute values). Take the evaluation training data and use a subset of the genes, consisting of the features you selected. Train a logistic regression classifier on this training data, and evaluate its performance on the evaluation test data. Report your score. Compare with two baselines: random features (take a random selection of 100 genes), and high-variance features (take the 100 genes with highest variance). Compare the variances of the features you selected with the highest variance features by plotting a histogram of the variances of features selected by both methods.
 |||  
-### 6. Problem 3: Influence of Hyper-parameters
+### Problem 3: Influence of Hyper-parameters
 
 > The hyper-parameter choices used in data analysis techniques can have a large impact on the inferences made. As you may have encountered, finding the best choice of parameter such as perplexity in T-SNE or the number of clusters can be an ambiguous problem. We will now investigate the sensitivity of your results to changes in these hyper-parameters, with the goal of understanding how your conclusions may vary depending on these choices.
 |||  

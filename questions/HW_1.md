@@ -1,4 +1,4 @@
-### 3. Problem 1.1 The Salk Vaccine Field Trial
+### Problem 1.1 The Salk Vaccine Field Trial
 
 **1. (2 points):**
 
@@ -30,7 +30,7 @@
 
 >In the randomized controlled trial, the children whose parents refused to participate in the trial got polio at the rate of 46 per 100000, while the children whose parents consented to participate got polio at a slighter higher rate of 49 per 100000 (treatment and control groups taken together). On the basis of these numbers, in the following year, some parents refused to allow their children to participate in the experiment and be exposed to this higher risk of polio. Were their conclusion correct? What would be the consequence if a large group of parents act this way in the next year's trial? *(Maximum 200 words.)*
 |||  
-### 5. Problem 1.3
+### Problem 1.3
 
 **(a-1). (2 points):**
 
@@ -90,7 +90,7 @@
 
 >True or False? *(Maximum 300 words.)*
 |||  
-### 7. Problem 1.5
+### Problem 1.5
 
 **(8). (3 points):**
 
