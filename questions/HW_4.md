@@ -2,7 +2,8 @@
 ### Problem 2: The Mauna Loa CO<sub>2</sub> Concentration
 ### The final model|||
 **1.** (3 points) Plot the periodic signal $P_i$. (Your plot should have 1 data point for each month, so 12 in total.) Clearly state the definition the $P_i$, and make sure your plot is clearly labeled.
->Python tip: For interpolation, you may use interp1d from Scikit-learn. See Documentation on interp1d.|||
+>Python tip: For interpolation, you may use interp1d from Scikit-learn. See Documentation on interp1d.|||  
+
 **2.** (2 points) Plot the final fit $F_n(t_i)+P_i$. Your plot should clearly show the final model on top of the entire time series, while indicating the split between the training and testing data.|||
 **3.** (4 points) Report the root mean squared prediction error RMSE and the mean absolute percentage error MAPE with respect to the test set for this final model. Is this an improvement over the previous model $F_n(t_i)$ without the periodic signal? (Maximum 200 words.)|||
 **4.** (3 points) What is the ratio of the range of values of $F$ to the amplitude of $P_i$ and the ratio of the amplitude of $P$ to the range of the residual $R_i$ (from removing both the trend and the periodic signal)? Is this decomposition of the variation of the CO2 concentration meaningful? (Maximum 200 words.)|||
@@ -36,7 +37,7 @@ Include all important steps of your computations in your report.|||
 ### External Regressors|||
 **1.** (4 points) Include as external regressors monthly average PriceStats inflation rate data and monthly BER data. Use cross-correlation plots to find the lag between the following:
 - CPI inflation rate and PriceStats inflation rate
-- CPI and BER inflation rate.|||
+- CPI and BER inflation rate.|||  
 **2.** (3 points) Fit a new AR model to the CPI inflation rate with these external regressors and the most appropriate lag. Report the coefficients.
 > Python Tip: You may use use sm.tsa.statespace.SARIMAX.|||
 **3.** (3 points) Report the mean squared prediction error for 1 month ahead forecasts.|||

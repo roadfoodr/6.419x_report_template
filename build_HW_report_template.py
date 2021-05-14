@@ -8,7 +8,7 @@ import nbformat as nbf
 
 
 #%% Initialize variables
-TEMPLATE_STYLE = 'jbook'  # options: 'jbook' or 'classic'
+TEMPLATE_STYLE = 'classic'  # options: 'jbook' or 'classic'
 DATA_DIR = 'questions'
 WEEK = 4
 CLASS_NAME = 'MITx 6.419x  Data Analysis: Statistical Modeling and Computation in Applications'
@@ -30,6 +30,8 @@ questions = re.split(r'\|\|\|', question_blocks)
 
 #%% create the notebook
 nb = nbf.v4.new_notebook()
+if TEMPLATE_STYLE == 'jbook':
+    nb['metadata']['celltoolbar'] = ['Tags']
 nb['cells'] = []
 
 #%% Format the header cell
@@ -69,11 +71,16 @@ for q in questions:
     # https://stackoverflow.com/questions/17779744/regular-expression-to-get-a-string-between-parentheses-in-javascript
     points = re.findall(r'\((\d+) point[s]*[\.]*\)', q)
     pointsum = sum([int(i) for i in points if type(i)==int or i.isdigit()])
+    point_str = f'{pointsum} points' if pointsum else ''
 
     words = re.search(r'\([Mm]aximum (\d+) words[\.]*\)', q)
     words = words if words else (
         re.search(r'\((\d+) word limit[\.]*\)', q))
     words = words.group(1) if words else 0
+    words_str = f'{words} word limit' if words else ''
+    
+    qinfos = [qi for qi in [point_str, words_str] if qi]
+    qinfo_str = f'({", ".join(qinfos)})' if len(qinfos) else ''
 
     problem = re.search(r'Problem (\d+):', q)
     problem = problem.group(1) if problem else ''
@@ -83,6 +90,8 @@ for q in questions:
     subproblem = subproblem.group(1).rstrip('.') if subproblem else ''
     if current_problem and subproblem:
         question_name = f'{current_problem}.{subproblem}'
+    else:
+        question_name = ''
 
     if TEMPLATE_STYLE == 'jbook':
         q = re.sub('^##', '#', q, count=1)  #move all headers up one level
@@ -93,8 +102,14 @@ for q in questions:
 
         q = re.sub(r'^\>? ?\*\*[a-zA-Z0-9]\.?[a-zA-Z0-9]?\.?\*\*',
                    '', q) #remove problem names from q body
-
-    else:
+        
+        admonition = (f'```{{admonition}} {question_name} {qinfo_str}\n'
+                      f':class: caution\n'
+                      f'*{q.strip()}*\n'
+                      f'```')
+        q = admonition if question_name else q
+        
+    else:  # classic style
         pass
     
     new_cell = nbf.v4.new_markdown_cell(q)
@@ -103,15 +118,20 @@ for q in questions:
         new_cell['metadata']['tags'].append(f'question:{question_name}')
     if pointsum:
         new_cell['metadata']['tags'].append(f'points:{pointsum}')
-    if words:
-        new_cell['metadata']['tags'].append(f'words:{words}')
     nb['cells'].append(new_cell)
-    nb['cells'].append(nbf.v4.new_markdown_cell(' '))
+    
+    if question_name:  # only interleave an answer cell if this is a question
+        new_cell = nbf.v4.new_markdown_cell(' ')
+        if words:
+            new_cell['metadata']['tags'] = []
+            new_cell['metadata']['tags'].append(f'word-limit:{words}')
+        nb['cells'].append(new_cell)
 
 #%% write out the notebook
 jbook_suffix = '_jbook' if TEMPLATE_STYLE == 'jbook' else ''
 fn = f'HW{WEEK}_report_template{jbook_suffix}.ipynb'
 print (f'Writing {fn}')
 nbf.write(nb, fn)
+
 if TEMPLATE_STYLE == 'jbook':
-    print(f'To build: jupyter-book build ./{fn}')
+    print(f'\nTo build: jupyter-book build ./{fn}')
