@@ -10,12 +10,12 @@ import nbformat as nbf
 #%% Initialize variables
 TEMPLATE_STYLE = 'classic'  # options: 'jbook' or 'classic'
 DATA_DIR = 'questions'
-WEEK = 4
+WEEK = 5
 CLASS_NAME = 'MITx 6.419x  Data Analysis: Statistical Modeling and Computation in Applications'
 STUDENT_NAME = 'Student Name'
 STUDENT_USERNAME = 's_name'
 COLLABORATORS = 'none'
-REPORT_DATE = '5/14/21'
+REPORT_DATE = '5/31/21'
 
 #%% Read questions
 abspath = os.path.abspath(__file__)
@@ -95,7 +95,7 @@ for q in questions:
 
     if TEMPLATE_STYLE == 'jbook':
         q = re.sub('^##', '#', q, count=1)  #move all headers up one level
-        q = re.sub(r'\(\d+ point[s]*[\.]*\)\s?', '', q) #remove points from q body
+        q = re.sub(r'\(\d+ point[s]*[\.]*\):*\s?', '', q) #remove points from q body
         
         q = re.sub(r'\([Mm]aximum (\d+) words[\.]*\)', '', q) #remove words from q body
         q = re.sub(r'\((\d+) word limit[\.]*\)', '', q)
