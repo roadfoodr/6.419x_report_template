@@ -1,0 +1,19 @@
+@media print {
+    .bd-toc {
+        visibility: hidden;
+    }
+}
+
+@media print {
+    .bd-content div#main-content>div {
+        flex: 0 0 85%;
+        max-width: 85%;
+    }
+}
+
+@media print {
+    .footer p {
+        visibility: hidden;
+    }
+}
+
